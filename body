@@ -1,0 +1,116 @@
+library=[]
+import random
+import datetime 
+from performable_actions import *
+
+customers = "y"
+
+while customers == "y":
+
+    reading = "yes"
+    while reading == "yes":
+        print("\n============Main Menu=================\n")
+        print("1.For creating a new account")
+        print("2.For deleting your account")
+        print("3.For accessing your account")
+        print("4.Exit the library")
+        print("5.Terminate online library program")
+        print("\n======================================")
+        your_choice = int(input("\nEnter your choice:"))
+
+        if your_choice == 1:
+            creating_account()
+       
+        elif your_choice == 2:
+
+            name = input("Enter your name:")
+            register_no=int(input("Enter your your register number:"))
+
+            for i in library:
+                if i["Member Name"]==name and i["Register Number"]==register_no :
+                    i.clear()
+                    print("Your account has been deleted")
+                    your_choice=4
+
+                else:
+                    print("Sorry, Your account does not exist") 
+
+                    tomatoes ="create"
+                    print("Type create if you want to create a new account")
+                    your_other_choice = input("Enter your choice:")
+                    if your_other_choice=="create" or your_other_choice=="Create":
+                          creating_account()
+                          break
+                    else:
+                        save_info()
+                        print("You are now leaving the library")          
+                        reading = "no"
+                        tomatoes="nope"
+                        break
+                          
+                          
+        elif your_choice==3:
+
+            # asking user for necessary details and storing in variables
+
+            names= input("Enter your name :")                                  
+            register_no = int(input("Enter your member number :"))
+            print("_________________________________________________")
+            print("                Preferred Action                 ")
+            print("_________________________________________________")
+            print("1. To purchase a book")
+            print("2. To rent a book")
+            print("3. To donate a book")
+            print("4. To return a book")
+            print("5. To renew a book\n")
+
+
+            preffered_action = int(input("What do you want to do :"))
+            name["Member Name:"]=names
+            name["Register Number:"]=register_no
+            name["Preffered Action:"]=preffered_action                          # mode_still_on is for repeated activities
+
+
+            if preffered_action == 1:                                           # if the user wants to buy a book
+
+                # calling function from module
+                buy_a_book()
+            
+            elif preffered_action == 2:
+
+                # calling function from module
+                rent_a_book()
+                 
+            elif preffered_action == 3:
+
+                # calling function from module
+                donate_a_book()
+            
+            elif preffered_action == 4:
+
+                # calling function from module
+                return_a_book()
+
+            elif preffered_action == 5:
+
+                # calling function from module
+                renew_a_book()                                          
+
+                    
+        elif your_choice == 4:
+
+            save_info()
+            print("Your information has been saved")
+            print("You are now leaving the library the library")
+            print("Please make way for the next cusomer")
+            break
+
+        elif your_choice == 5:
+            
+            exit_strategy()
+            exiting=input("Do you you want to terminate the program:")
+            if exiting=="yes" or exiting=="Yes" or exiting=="Y":
+                customers="n"
+                reading="no"
+            else:
+                pass
