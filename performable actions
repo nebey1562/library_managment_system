@@ -1,0 +1,208 @@
+import random
+name={"Member Name":"qw","Register Number":123}
+library=[name]
+register_no=1
+from csv import writer
+import datetime                                                             #using date time module to find date and time
+todays_date = datetime.date.today()
+todays_time = datetime.datetime.now()
+current_time = todays_time.strftime("%H:%M:%S")                             #strftime used to convert time from now() into a string
+
+def creating_account():
+        names= input("Enter your name:")                  
+        register_no= random.randint(100000,999999)
+        print("Your register number is ",register_no,'\n')                       #given register number may be already given
+        name["Member Name"]=names
+        name["Register Number"]=register_no
+        print("1.If you wish to continue in the library")
+        print("2.If you wish to exit from the library")
+        save_info()
+        secondary_choice = int(input("Enter your choice of action:"))
+        if secondary_choice == 1:            
+            reading = "yes"
+            return register_no
+        elif secondary_choice == 2:
+            print("You are now leaving the library")           # in order to increase lines , code what happens if the user gives the invalid choice
+            reading = "no"
+    
+def buy_a_book():                                                           #function for buying a book
+
+    i=1                                                                     #i is being used to distinguish different purchases
+    mode_still_on="yes"
+    while mode_still_on=="yes":                                             #while loop for repeated purchases 
+        choice ="n"
+        print("\nClick y to see list of books")
+        choice = input("Do you wish to see a list of all the available books :")
+        if choice =="y" :            
+            all_available_books()                                           #dictionary or text file showing all available books
+        book_name=input("Name the book you want to buy:")     
+        name["Bought Book Name",i] = book_name
+        book_price=int(input("Enter the price of the book:"))        
+        name["Bought Book price",i] = book_price
+
+        print("\nIf you wish to purchase another book, click y")
+        your_new_choice = input("Do you wish to purchase another book:")
+                
+        if your_new_choice == "y" or your_new_choice=="yes":
+            i = i + 1
+            mode_still_on ="yes"
+        else:
+            mode_still_on ="no"
+            your_choice = 4
+            print("\nPlease proceed to payment")
+            print("Thank you for your purchase\n")
+
+def rent_a_book():
+    i=1
+    mode_still_on = True
+    while mode_still_on == True:
+
+        choice="n"
+        print("\nClick y to see list of books")
+        choice = input("Do you wish to see a list of all the available books :")
+
+        if choice =="y":
+            
+            all_available_books()                                           #dictionary or text file showing all available books         
+
+        book_name = input(" Name the book you want to rent:")     
+        name["Rent Book Name",i] = book_name
+        print("\nThe rent of the book for the first two weeks is $10 and an extra $6 for every week\n")
+        name["Rent_Date",i] = todays_date
+        name["Rent_Time",i] = current_time
+        
+        
+        print("If you wish to rent another book, click y")
+        your_new_choice = input("Do you wish to rent another book:")
+        
+        if your_new_choice == "y":
+            i = i + 1
+            mode_still_on = True
+        else:
+            mode_still_on = False
+            your_choice = 4
+
+            print("\nPlease return or renew all book within two weeks")        
+            print("Please proceed to payment")
+            print("Thank you for your purchase")
+
+def donate_a_book():
+    i=1
+    mode_still_on=True
+    while mode_still_on == True:
+        your_new_choice="n"
+        book_name = input("Name the book you want to donate: ")     
+        author_name = input("Name of the author: ")
+        name["Donated Book Name",i] = book_name
+        book_price =int(input("Enter the price of your book: "))
+        name["Donated Book price",i] = book_price
+        file_1 = open("all_books.txt", "a+")
+        file_1.write(book_name)
+        file_1.write("\t\t")
+        file_1.write(author_name)
+        file_1.write("\t\t")
+        file_1.write(str(book_price))
+        file_1.write("$")
+        file_1.write("\n")
+        file_1.close()
+        print("\nIf you wish to donate another book, click y")
+        your_new_choice = input("Do you wish to donate another book:")
+        
+        if your_new_choice == "y":
+            i = i + 1
+            mode_still_on = True
+        else:
+            mode_still_on = False
+            your_choice = 4
+            print("\nThank you for your donation")
+
+def return_a_book():
+    i=1
+    mode_still_on=True
+    while mode_still_on == True:
+        your_new_choice="n"  
+
+        book_name = input("Name the book you want to return :")
+
+        if name["Rent Book Name",i]==book_name:
+            del name["Rent Book Name",i]
+            del name["Rent_Date",i]
+            del name["Rent_Time",i]
+        else:
+            print("\nYou have either not rented this book or you made a typo") 
+        print("\nYour profile has been updated")
+
+        print("\nIf you wish to return another book, click y")
+        your_new_choice = input("Do you wish to return another book:")
+        
+        if your_new_choice == "y":
+            i = i + 1
+            mode_still_on = True
+        else:
+            your_choice = 4
+            mode_still_on = False
+               
+            print("\nThank you for returning the books\n")
+
+def renew_a_book():
+    i=1
+    mode_still_on=True
+    while mode_still_on==True:
+        your_new_choice="n" 
+        book_name = input("Name the book you want to renew:")
+        if name["Rent Book Name",i] == book_name:
+            name["Rent_Date",i] = todays_date
+            name["Rent_Time",i] = current_time
+
+        print("\nIf you wish to renew another book, click y")
+        your_new_choice = input("Do you wish to renew another book:")
+        
+        if your_new_choice == "y":
+            i = i + 1
+            mode_still_on = True
+        else:
+            mode_still_on = False
+            your_choice = 4
+
+        print("\nYour book has been renewed for another week")
+
+def save_info():
+
+    for i in library:
+        if i['Register Number']==register_no:
+              library.remove(i)
+              library.append(name)
+              break
+                  
+        else :
+            library.append(name)
+            break
+
+def save_to_csv(file_name, list_of_elem):
+
+    # Open file in append mode
+    with open(file_name, 'a+', newline='') as write_obj:
+        # Create a writer object from csv module
+        csv_writer = writer(write_obj)
+        # Add contents of list as last row in the csv file
+        csv_writer.writerow(list_of_elem)        
+
+def all_available_books():
+
+    file_1 = open("all_books.txt", "r+")
+    print (file_1.read())
+
+def add_a_book():
+    
+    file_1 = open("all_books.txt", "a+")
+    file_1.write(book_name)
+    file_1.write("\t\t")
+    file_1.write(author_name)
+    file_1.write("\t\t")
+    file_1.write(book_price)
+    file_1.write("$")
+    file_1.write("\n")
+    file_1.close()
+
+def exit_strategy():
+        save_to_csv('library_data.csv',library)
